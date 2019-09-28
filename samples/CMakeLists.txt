@@ -11,7 +11,10 @@ set( CMAKE_CXX_FLAGS "-std=c++11 -O3" )
 
 ############### source and test ######################
 include_directories( ~/Documents/My_Modules )
-add_executable( test test.cpp 
+add_executable( tcpserver tcpserver.cpp 
 )
+target_link_libraries( tcpserver /home/pi/Documents/My_Modules/libs/c++/libmodules_tcp.a)
 
-target_link_libraries( test /home/pi/Documents/My_Modules/libs/c++/libmodules_tcp.a)
+add_executable( tcpclient tcpclient.cpp 
+)
+target_link_libraries( tcpclient /home/pi/Documents/My_Modules/libs/c++/libmodules_tcp.a)
