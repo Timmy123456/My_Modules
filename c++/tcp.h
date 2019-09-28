@@ -9,7 +9,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-#define MAX_BUFFER_SIZE 1024
+#define MODULE_TCP_MAX_BUFFER_SIZE 1024 //加入类名以免在引用时重定义
 
 using namespace std;
 
@@ -39,8 +39,8 @@ private:
 	
 	struct sockaddr_in servaddr;
 	
-	char sendBuff[MAX_BUFFER_SIZE];
-	char readBuff[MAX_BUFFER_SIZE];
+	char sendBuff[MODULE_TCP_MAX_BUFFER_SIZE];
+	char readBuff[MODULE_TCP_MAX_BUFFER_SIZE];
 };
 
 #endif

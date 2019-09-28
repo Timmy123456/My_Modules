@@ -6,6 +6,7 @@ set( CMAKE_BUILD_TYPE "Release" )
 set( CMAKE_CXX_FLAGS "-std=c++11 -O3" )
 
 #set( EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin )
+set( LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../libs/c++ )
 
 ############### dependencies ######################
 # OpenCV
@@ -20,8 +21,10 @@ set( CMAKE_CXX_FLAGS "-std=c++11 -O3" )
 #add_subdirectory( src )
 
 ############### source and test ######################
-add_executable( test test.cpp
+add_library( modules_tcp
 	tcp.cpp
 )
 
-#target_link_libraries( run ${OpenCV_LIBS} )
+target_link_libraries( myslam
+    ${THIRD_PARTY_LIBS}
+)

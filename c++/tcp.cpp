@@ -93,7 +93,7 @@ int ModuleTcp::sendTo(char* buff, int len)
 
 int ModuleTcp::readFrom(char* buff)
 {
-	if (recv(wr_fd, buff, MAX_BUFFER_SIZE, 0) == 0)
+	if (recv(wr_fd, buff, MODULE_TCP_MAX_BUFFER_SIZE, 0) == 0)
 	{
 		cout << "connect stop" << endl;
 		exit(0);
