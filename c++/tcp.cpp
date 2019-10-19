@@ -13,17 +13,17 @@ ModuleTcp::ModuleTcp(int _port, string _server_ip)
     sock_fd = socket(AF_INET, SOCK_STREAM, 0);
     
     ///定义sockaddr_in
-    memset(&servaddr, 0, sizeof(servaddr));
-    servaddr.sin_family = AF_INET;
-    servaddr.sin_port = htons(port);  ///服务器端口
-    servaddr.sin_addr.s_addr = inet_addr(server_ip.c_str());  ///服务器ip
+    memset(&server_addr, 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(port);  ///服务器端口
+    server_addr.sin_addr.s_addr = inet_addr(server_ip.c_str());  ///服务器ip
 }
 
 void ModuleTcp::connectToServer()
 {
 	cout << "Connecting port:" << port << " ip:" << server_ip << endl;
 	//连接服务器，成功返回0，错误返回-1
-    if (connect(sock_fd, (struct sockaddr *)&servaddr, sizeof(servaddr)) < 0)
+    if (connect(sock_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
     {
         perror("connect");
         exit(1);
@@ -54,7 +54,7 @@ ModuleTcp::ModuleTcp(int _port)
     }
 }
 
-void ModuleTcp::waitConnect()
+int ModuleTcp::waitConnect()
 {   
     cout << "listen port:" << port << endl;
     //listen，成功返回0，出错返回-1
@@ -65,7 +65,6 @@ void ModuleTcp::waitConnect()
     }
 
 	//客户端套接字
-    struct sockaddr_in client_addr;
     socklen_t length = sizeof(client_addr);
     
     printf("Waiting for client........\n");
@@ -78,6 +77,7 @@ void ModuleTcp::waitConnect()
     }
     printf("A client connected\n");	
 	wr_fd = conn;
+	return conn;
 }
 
 void ModuleTcp::waitConnectAndThread()
