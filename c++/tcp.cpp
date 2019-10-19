@@ -11,6 +11,13 @@ ModuleTcp::ModuleTcp(int _port, string _server_ip)
 	server_ip = _server_ip;
 	///定义sockfd
     sock_fd = socket(AF_INET, SOCK_STREAM, 0);
+	
+	int reuse = 1;
+	if (setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(reuse)) == -1)
+	{
+		std::cout << "setsockopt " << SO_REUSEADDR << "failed" << std::endl;
+		return;
+	}
     
     ///定义sockaddr_in
     memset(&server_addr, 0, sizeof(server_addr));
@@ -39,6 +46,13 @@ ModuleTcp::ModuleTcp(int _port)
 	port = _port;
 	//定义sockfd
     sock_fd = socket(AF_INET, SOCK_STREAM, 0);
+	
+	int reuse = 1;
+	if (setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(reuse)) == -1)
+	{
+		std::cout << "setsockopt " << SO_REUSEADDR << "failed" << std::endl;
+		return;
+	}
     
     //定义sockaddr_in
     struct sockaddr_in server_sockaddr;
