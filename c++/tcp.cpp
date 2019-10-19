@@ -83,7 +83,7 @@ void ModuleTcp::waitConnect()
 void ModuleTcp::waitConnectAndThread()
 {}
 
-int ModuleTcp::sendTo(char* buff, int len)
+void ModuleTcp::sendTo(char* buff, int len)
 {
 	if (send(wr_fd, buff, len, 0) == -1)
 	{
@@ -91,7 +91,7 @@ int ModuleTcp::sendTo(char* buff, int len)
 	}
 }
 
-int ModuleTcp::readFrom(char* buff)
+void ModuleTcp::readFrom(char* buff)
 {
 	if (recv(wr_fd, buff, MODULE_TCP_MAX_BUFFER_SIZE, 0) == 0)
 	{

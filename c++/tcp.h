@@ -28,8 +28,8 @@ public:
 	void waitConnectAndThread();
 	
 	/* 通用接口 */
-	int sendTo(char* buff, int len);
-	int readFrom(char* buff);
+	void sendTo(char* buff, int len);
+	void readFrom(char* buff);
 
 private:
 	int sock_fd;
