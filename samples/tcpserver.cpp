@@ -10,7 +10,7 @@ int main(int argc, char** argv)
 	{
 		char buf[1024] = "";
 		server.readFrom((char*)buf);
-		printf("%s\n");
+		printf("%s\n", buf);
 		usleep(100000);
 	}
 	return 0;
