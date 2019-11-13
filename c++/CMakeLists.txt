@@ -21,10 +21,11 @@ set( LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../libs/c++ )
 #add_subdirectory( src )
 
 ############### source and test ######################
-add_library( modules_tcp
+add_library( modules
 	tcp.cpp
+	wiring_serial.cpp
 )
 
-target_link_libraries( myslam
-    ${THIRD_PARTY_LIBS}
-)
+#target_link_libraries( myslam
+#    ${THIRD_PARTY_LIBS}
+#)

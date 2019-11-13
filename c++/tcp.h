@@ -31,12 +31,13 @@ public:
 	void sendTo(char* buff, int len);
 	void readFrom(char* buff);
 
-private: //只有private中的成员不能被继承的子类访问
+protected: 
 	int sock_fd;
 	int port;
 	string server_ip;
 	int wr_fd;
 
+private: //只有private中的成员不能被继承的子类访问
 	char sendBuff[MODULE_TCP_MAX_BUFFER_SIZE];
 	char readBuff[MODULE_TCP_MAX_BUFFER_SIZE];
 	
