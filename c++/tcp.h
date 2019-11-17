@@ -4,6 +4,7 @@
 #include <string>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <netinet/tcp.h>
 #include <stdio.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -30,6 +31,8 @@ public:
 	/* 通用接口 */
 	void sendTo(char* buff, int len);
 	void readFrom(char* buff);
+	int setKeepAlive(int idle, int cnt, int intv);
+	int tcp_is_connected();
 
 protected: 
 	int sock_fd;
