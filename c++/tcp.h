@@ -22,7 +22,7 @@ public:
 	~ModuleTcp();
 	
 	/* 客户端接口 */
-	void connectToServer();
+	int connectToServer();
 	
 	/* 服务器接口 */
 	int waitConnect();

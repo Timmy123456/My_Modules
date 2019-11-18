@@ -27,17 +27,18 @@ ModuleTcp::ModuleTcp(int _port, string _server_ip)
 
 //=======================================================================================
 /* 客户端部分代码 */
-void ModuleTcp::connectToServer()
+int ModuleTcp::connectToServer()
 {
 	cout << "Connecting port:" << port << " ip:" << server_ip << endl;
 	//连接服务器，成功返回0，错误返回-1
     if (connect(sock_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
     {
         perror("connect");
-        exit(1);
+        return -1;
     }
     cout << "Connect to server success!" << endl;
 	wr_fd = sock_fd;
+	return 0;
 }
 //========================================================================================
 /* 服务器部分代码 */
@@ -65,7 +66,8 @@ ModuleTcp::ModuleTcp(int _port)
     if(bind(sock_fd, (struct sockaddr *)&server_sockaddr, sizeof(server_sockaddr)) == -1)
     {
         perror("bind");
-        exit(1);
+        //exit(1);
+		return;
     }
 }
 
@@ -76,7 +78,8 @@ int ModuleTcp::waitConnect()
     if(listen(sock_fd, 20) == -1)
     {
         perror("listen");
-        exit(1);
+        //exit(1);
+		return -1;
     }
 
 	//客户端套接字
@@ -88,7 +91,8 @@ int ModuleTcp::waitConnect()
     if(conn<0)
     {
         perror("connect");
-        exit(1);
+        //exit(1);
+		return -1;
     }
     printf("A client connected\n");	
 	wr_fd = conn;
