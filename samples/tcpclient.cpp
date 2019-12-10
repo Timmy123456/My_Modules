@@ -3,16 +3,19 @@
 
 int main(int argc, char** argv)
 {
+	ModuleTcp client(4001, "192.168.137.1");
+	//client.connectToServer();
 	while (1)
 	{
-		ModuleTcp client(4001, "192.168.137.1");
+		client.reInitTcp();
+		// ModuleTcp client(4001, "192.168.137.1");
 		client.connectToServer();
-		
 		while(1)
 		{
 			if (!client.tcp_is_connected()) //检测是否断开
 			{
 				printf("TCP disconnect!\n");
+				sleep(3);
 				break;
 			}
 			char buf[1024] = "";

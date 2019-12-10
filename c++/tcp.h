@@ -23,6 +23,7 @@ public:
 	
 	/* 客户端接口 */
 	int connectToServer();
+	int reInitTcp();
 	
 	/* 服务器接口 */
 	int waitConnect();

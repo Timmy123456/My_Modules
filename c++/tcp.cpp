@@ -9,6 +9,11 @@ ModuleTcp::ModuleTcp(int _port, string _server_ip)
 	server_ip = _server_ip;
 	///定义sockfd
     sock_fd = socket(AF_INET, SOCK_STREAM, 0);
+	if (sock_fd < 0)
+	{
+		perror("socket");
+		return;
+	}
 	
 	//设置端口复用
 	int reuse = 1;
@@ -33,6 +38,7 @@ int ModuleTcp::connectToServer()
 	//连接服务器，成功返回0，错误返回-1
     if (connect(sock_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
     {
+		cout << "1:" << sock_fd << endl;
         perror("connect");
         return -1;
     }
@@ -40,6 +46,34 @@ int ModuleTcp::connectToServer()
 	wr_fd = sock_fd;
 	return 0;
 }
+
+int ModuleTcp::reInitTcp()
+{
+	cout << "Start TCP Client reconnect" << endl;
+	///定义sockfd
+    sock_fd = socket(AF_INET, SOCK_STREAM, 0);
+	if (sock_fd < 0)
+	{
+		perror("socket");
+		return sock_fd;
+	}
+	cout << "2:" <<  sock_fd << endl;
+	//设置端口复用
+	int reuse = 1;
+	if (setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(reuse)) == -1)
+	{
+		std::cout << "setsockopt " << SO_REUSEADDR << "failed" << std::endl;
+		return -1;
+	}
+    
+    ///定义sockaddr_in
+    memset(&(server_addr), 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(port);  ///服务器端口
+    server_addr.sin_addr.s_addr = inet_addr(server_ip.c_str());  ///服务器ip
+	return 0;
+}
+
 //========================================================================================
 /* 服务器部分代码 */
 ModuleTcp::ModuleTcp(int _port)
