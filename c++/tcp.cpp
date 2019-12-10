@@ -14,7 +14,7 @@ ModuleTcp::ModuleTcp(int _port, string _server_ip)
 		perror("socket");
 		return;
 	}
-	cout << sock_fd << endl;
+
 	//设置端口复用
 	int reuse = 1;
 	if (setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(reuse)) == -1)
