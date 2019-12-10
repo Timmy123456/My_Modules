@@ -34,6 +34,11 @@ public:
 	void readFrom(char* buff);
 	int setKeepAlive(int idle, int cnt, int intv);
 	int tcp_is_connected();
+	
+	int readSockfd()
+	{
+		return this->sock_fd;
+	}
 
 protected: 
 	int sock_fd;
