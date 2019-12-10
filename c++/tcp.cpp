@@ -14,7 +14,7 @@ ModuleTcp::ModuleTcp(int _port, string _server_ip)
 		perror("socket");
 		return;
 	}
-	
+	cout << sock_fd << endl;
 	//设置端口复用
 	int reuse = 1;
 	if (setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(reuse)) == -1)
@@ -38,7 +38,6 @@ int ModuleTcp::connectToServer()
 	//连接服务器，成功返回0，错误返回-1
     if (connect(sock_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
     {
-		cout << "1:" << sock_fd << endl;
         perror("connect");
         return -1;
     }
@@ -50,6 +49,7 @@ int ModuleTcp::connectToServer()
 int ModuleTcp::reInitTcp()
 {
 	cout << "Start TCP Client reconnect" << endl;
+	close(sock_fd); //关闭先前的句柄
 	///定义sockfd
     sock_fd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock_fd < 0)
@@ -57,7 +57,7 @@ int ModuleTcp::reInitTcp()
 		perror("socket");
 		return sock_fd;
 	}
-	cout << "2:" <<  sock_fd << endl;
+
 	//设置端口复用
 	int reuse = 1;
 	if (setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(reuse)) == -1)
