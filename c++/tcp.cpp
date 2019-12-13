@@ -136,21 +136,24 @@ int ModuleTcp::waitConnect()
 void ModuleTcp::waitConnectAndThread()
 {}
 
-void ModuleTcp::sendTo(char* buff, int len)
+int ModuleTcp::sendTo(char* buff, int size, int flag)
 {
-	if (send(wr_fd, buff, len, 0) == -1)
+	int ret = send(wr_fd, buff, size, flag);
+	if (ret == -1)
 	{
 		perror("send");
 	}
+	return ret;
 }
 
-void ModuleTcp::readFrom(char* buff)
+int ModuleTcp::readFrom(char* buff, unsigned int size, int flag)
 {
-	if (recv(wr_fd, buff, MODULE_TCP_MAX_BUFFER_SIZE, 0) == 0)
+	int ret = recv(wr_fd, buff, size, flag);
+	if (ret == 0)
 	{
 		cout << "connect stop" << endl;
-		//exit(0);
 	}
+	return ret;
 }
 
 ModuleTcp::~ModuleTcp()

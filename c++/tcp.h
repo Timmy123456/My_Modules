@@ -30,8 +30,8 @@ public:
 	void waitConnectAndThread();
 	
 	/* 通用接口 */
-	void sendTo(char* buff, int len);
-	void readFrom(char* buff);
+	int sendTo(char* buff, int size, int flag = MSG_DONTWAIT);
+	int readFrom(char* buff, unsigned int size = MODULE_TCP_MAX_BUFFER_SIZE, int flag = MSG_DONTWAIT);
 	int setKeepAlive(int idle, int cnt, int intv);
 	int tcp_is_connected();
 	

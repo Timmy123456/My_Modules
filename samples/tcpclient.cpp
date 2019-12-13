@@ -1,5 +1,8 @@
+#include <iostream>
 #include <string.h>
 #include "c++/tcp.h"
+
+using namespace std;
 
 int main(int argc, char** argv)
 {
@@ -13,10 +16,14 @@ int main(int argc, char** argv)
 			sleep(3);
 			client.reInitTcp();
 			client.connectToServer();
+			continue;
 		}
+		client.sendTo("hello", 6);
+		cout << "hello" << endl;
 		char buf[1024] = "";
 		client.readFrom((char*)buf);
 		printf("%s\n", buf);
+		client.sendTo(buf, strlen(buf));
 		usleep(100000);
 	}
 	return 0;
