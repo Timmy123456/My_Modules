@@ -6,7 +6,7 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-	ModuleTcp client(4001, "192.168.137.1");
+	ModuleTcp client("192.168.137.1", 4001);
 	client.connectToServer();
 	while(1)
 	{

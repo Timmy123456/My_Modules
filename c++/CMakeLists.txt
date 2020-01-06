@@ -24,6 +24,7 @@ set( LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../libs/c++ )
 add_library( modules
 	tcp.cpp
 	wiring_serial.cpp
+	udp.cpp
 )
 
 #target_link_libraries( myslam

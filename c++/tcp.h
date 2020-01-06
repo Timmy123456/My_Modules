@@ -18,7 +18,7 @@ class ModuleTcp
 {
 public:
 	ModuleTcp(int _port);  //构造server
-	ModuleTcp(int _port, string _server_ip);  //构造client
+	ModuleTcp(string _server_ip, int _port);  //构造client
 	~ModuleTcp();
 	
 	/* 客户端接口 */

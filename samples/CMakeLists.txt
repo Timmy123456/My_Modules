@@ -22,3 +22,11 @@ target_link_libraries( tcpclient /home/pi/Documents/My_Modules/libs/c++/libmodul
 add_executable( serial wiring_serial.cpp 
 )
 target_link_libraries( serial /home/pi/Documents/My_Modules/libs/c++/libmodules.a wiringPi)
+
+add_executable( udpserver udpserver.cpp 
+)
+target_link_libraries( udpserver /home/pi/Documents/My_Modules/libs/c++/libmodules.a)
+
+add_executable( udpclient udpclient.cpp 
+)
+target_link_libraries( udpclient /home/pi/Documents/My_Modules/libs/c++/libmodules.a)

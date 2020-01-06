@@ -2,7 +2,9 @@
 #include <string.h>
 #include "tcp.h"
 
-ModuleTcp::ModuleTcp(int _port, string _server_ip)
+//=======================================================================================
+/* 客户端部分代码 */
+ModuleTcp::ModuleTcp(string _server_ip, int _port)
 {
 	cout << "Start TCP Client" << endl;
 	port = _port;
@@ -30,8 +32,6 @@ ModuleTcp::ModuleTcp(int _port, string _server_ip)
     server_addr.sin_addr.s_addr = inet_addr(server_ip.c_str());  ///服务器ip
 }
 
-//=======================================================================================
-/* 客户端部分代码 */
 int ModuleTcp::connectToServer()
 {
 	cout << "Connecting port:" << port << " ip:" << server_ip << endl;
@@ -86,7 +86,7 @@ ModuleTcp::ModuleTcp(int _port)
 	int reuse = 1;
 	if (setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(reuse)) == -1)
 	{
-		std::cout << "setsockopt " << SO_REUSEADDR << "failed" << std::endl;
+		cout << "setsockopt " << SO_REUSEADDR << "failed" << endl;
 		return;
 	}
     
