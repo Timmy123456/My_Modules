@@ -29,14 +29,8 @@ ModuleUdp::ModuleUdp(int _port)
 		return;
     }
 	
-	// 设置rw_arg的默认值
-	rw_arg.send_buff = (char *)malloc(MODULE_UDP_MAX_BUFFER_SIZE);
-	memset(rw_arg.send_buff, 0, MODULE_UDP_MAX_BUFFER_SIZE);
-	rw_arg.recv_buff = (char *)malloc(MODULE_UDP_MAX_BUFFER_SIZE);
-	memset(rw_arg.recv_buff, 0, MODULE_UDP_MAX_BUFFER_SIZE);
-	rw_arg.size = MODULE_UDP_MAX_BUFFER_SIZE;
-	rw_arg.flag = 0;
-	rw_arg.peerlen = sizeof(struct sockaddr_in);
+	// 设置addr_arg的默认值
+	addr_arg.peerlen = sizeof(struct sockaddr_in);
 }
 
 //========================================================================================
@@ -52,6 +46,9 @@ ModuleUdp::ModuleUdp(string _server_ip, int _port)
 		return;
 	}
 	
+	int on=1;
+	setsockopt(sock_fd,SOL_SOCKET,SO_REUSEADDR | SO_BROADCAST,&on,sizeof(on));
+	
 	//定义sockaddr_in
     struct sockaddr_in sockaddr;
 	memset(&sockaddr, 0, sizeof(sockaddr));
@@ -65,27 +62,18 @@ ModuleUdp::ModuleUdp(string _server_ip, int _port)
         perror("bind");
 		return;
     }
-	
-	// 设置rw_arg的默认值
-	rw_arg.send_buff = (char *)malloc(MODULE_UDP_MAX_BUFFER_SIZE);
-	memset(rw_arg.send_buff, 0, MODULE_UDP_MAX_BUFFER_SIZE);
-	rw_arg.recv_buff = (char *)malloc(MODULE_UDP_MAX_BUFFER_SIZE);
-	memset(rw_arg.recv_buff, 0, MODULE_UDP_MAX_BUFFER_SIZE);
-	rw_arg.size = MODULE_UDP_MAX_BUFFER_SIZE;
-	rw_arg.flag = 0;
+	setDestination(_server_ip.c_str(), _port);
 }
 
 ModuleUdp::~ModuleUdp()
 {
 	close(sock_fd);
-	free(rw_arg.send_buff);
-	free(rw_arg.recv_buff);
 }
 
-int ModuleUdp::sendTo()
+int ModuleUdp::sendTo(char* buff, int size, int flag)
 {
 	int ret = -1;
-	ret = sendto(sock_fd, rw_arg.send_buff, rw_arg.size, rw_arg.flag, (struct sockaddr *)&rw_arg.peeraddr, rw_arg.peerlen);
+	ret = sendto(sock_fd, buff, size, flag, (struct sockaddr *)&addr_arg.peeraddr, addr_arg.peerlen);
 	if (ret == -1)
 	{
 		perror("sendto");
@@ -93,10 +81,10 @@ int ModuleUdp::sendTo()
 	return ret;
 }
 
-int ModuleUdp::readFrom()
+int ModuleUdp::readFrom(char* buff, unsigned int size, int flag)
 {
 	int ret = -1;
-	ret = recvfrom(sock_fd, rw_arg.recv_buff, rw_arg.size, rw_arg.flag, (struct sockaddr *)&rw_arg.peeraddr, &rw_arg.peerlen);
+	ret = recvfrom(sock_fd, buff, size, flag, (struct sockaddr *)&addr_arg.peeraddr, &addr_arg.peerlen);
 	if (ret == -1)
 	{
 		perror("recvfrom");

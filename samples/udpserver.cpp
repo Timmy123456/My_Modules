@@ -13,9 +13,7 @@ int main(int argc, char** argv)
 	while(1)
 	{
 		char buff[MODULE_UDP_MAX_BUFFER_SIZE] = "";
-		
-		reader.setRecvBuffer(buff, MODULE_UDP_MAX_BUFFER_SIZE); //定义接收内容存放的buffer
-		reader.readFrom(); //等待接收
+		reader.readFrom(buff); //等待接收
 		printf("recv:%s\n", buff);
 		
 		char ip[20];
@@ -25,8 +23,7 @@ int main(int argc, char** argv)
 		
 		reader.setDestination("192.168.137.1", 8080); // 设置发送目标的ip和port
 		memcpy(buff, "8080", 4);
-		reader.setSendBuffer(buff, 4); //定义发送内容存放的buffer
-		reader.sendTo(); //发送
+		reader.sendTo(buff, 4); //发送
 		
 	}
 	return 0;

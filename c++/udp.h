@@ -14,13 +14,9 @@ using namespace std;
 
 typedef struct
 {
-	char* send_buff;
-	char* recv_buff;
-	int size;
-	int flag;
 	struct sockaddr_in peeraddr;
 	socklen_t peerlen;
-} UdpRWArg;
+} UdpAddr;
 
 class ModuleUdp
 {
@@ -35,54 +31,22 @@ public:
 	}
 	
 	/* 通用接口 */
-	UdpRWArg rw_arg;
-	int sendTo();
-	int readFrom();
-	
-	void setSendBuffer(char * buff, unsigned int size)
-	{
-		this->rw_arg.send_buff = buff;
-		this->rw_arg.size = size;
-	}
-	
-	char *getSendBuffer()
-	{
-		return this->rw_arg.send_buff;
-	}
-	
-	void setRecvBuffer(char * buff, unsigned int size)
-	{
-		this->rw_arg.recv_buff = buff;
-		this->rw_arg.size = size;
-	}
-	
-	char *getRecvBuffer()
-	{
-		return this->rw_arg.recv_buff;
-	}
-	
-	void setBufferSize(unsigned int size)
-	{
-		this->rw_arg.size = size;
-	}
-	
-	void setFlag(int flag)
-	{
-		this->rw_arg.flag = flag;
-	}
+	UdpAddr addr_arg;
+	int sendTo(char* buff, int size, int flag = 0);
+	int readFrom(char* buff, unsigned int size = MODULE_UDP_MAX_BUFFER_SIZE, int flag = 0);
 	
 	void setDestination(const char *_ip, unsigned int _port)
 	{
-		this->rw_arg.peeraddr.sin_family = AF_INET;
-		this->rw_arg.peeraddr.sin_port = htons(_port);
-		this->rw_arg.peeraddr.sin_addr.s_addr = inet_addr(_ip);
-		this->rw_arg.peerlen = sizeof(struct sockaddr_in);
+		this->addr_arg.peeraddr.sin_family = AF_INET;
+		this->addr_arg.peeraddr.sin_port = htons(_port);
+		this->addr_arg.peeraddr.sin_addr.s_addr = inet_addr(_ip);
+		this->addr_arg.peerlen = sizeof(struct sockaddr_in);
 	}
 	
 	void getSource(char *_ip, unsigned int *_port)
 	{
-		memcpy(_ip, inet_ntoa(this->rw_arg.peeraddr.sin_addr), 17);
-		*_port = ntohs(this->rw_arg.peeraddr.sin_port);
+		memcpy(_ip, inet_ntoa(this->addr_arg.peeraddr.sin_addr), 17);
+		*_port = ntohs(this->addr_arg.peeraddr.sin_port);
 	}
 	
 protected: 

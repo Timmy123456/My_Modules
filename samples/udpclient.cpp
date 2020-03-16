@@ -13,13 +13,11 @@ int main(int argc, char** argv)
 	
 	while(1)
 	{
-		reader.setDestination("192.168.137.1", 8080);
-		memcpy(reader.rw_arg.send_buff, "hello udp", strlen("hello udp"));
-		reader.rw_arg.size = strlen("hello udp");
-		reader.sendTo();
+		reader.sendTo("hello udp", strlen("hello udp"));
 		
-		reader.readFrom();
-		printf("recv:%s\n", reader.rw_arg.recv_buff);
+		char buff[MODULE_UDP_MAX_BUFFER_SIZE] = "";
+		reader.readFrom(buff);
+		printf("recv:%s\n", buff);
 	}
 	return 0;
 }
